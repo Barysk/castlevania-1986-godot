@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://wgw74ktiyd4w"]
+
+[node name="AreaTrigger" type="Area2D"]
+
+[node name="Collision" type="CollisionShape2D" parent="."]

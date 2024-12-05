@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://byimj1o4lmq63"]
+[gd_scene load_steps=9 format=3 uid="uid://byimj1o4lmq63"]
 
 [ext_resource type="Texture2D" uid="uid://bsfprsxjoc3ue" path="res://Player/sprites.png" id="1_cpw4i"]
 [ext_resource type="Script" path="res://Player/player.gd" id="1_knlpx"]
@@ -7,21 +7,47 @@
 atlas = ExtResource("1_cpw4i")
 region = Rect2(1, 20, 16, 33)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_afbrd"]
+atlas = ExtResource("1_cpw4i")
+region = Rect2(29, 20, 17, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uohxo"]
+atlas = ExtResource("1_cpw4i")
+region = Rect2(46, 20, 17, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v1kpq"]
+atlas = ExtResource("1_cpw4i")
+region = Rect2(63, 20, 17, 33)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_btjp0"]
 animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bbxj1")
 }],
-"loop": true,
+"loop": false,
 "name": &"idle",
-"speed": 5.0
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_afbrd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uohxo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v1kpq")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 8.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ndnyj"]
-size = Vector2(16, 31)
+size = Vector2(16, 30)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
 script = ExtResource("1_knlpx")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -33,6 +59,7 @@ position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_ndnyj")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
 limit_left = 0
 limit_top = 0
 limit_right = 768

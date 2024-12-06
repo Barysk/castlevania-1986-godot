@@ -18,5 +18,5 @@ func spawn_player_at_pos(x: float, y: float) -> Vector2:
 # move to entrance hall
 func _on_scene_to_entr_hall_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
-		body.position = spawn_player_at_pos(816,240)
+		body.position = spawn_player_at_pos(816, 225)
 		body.change_camera_limits(768, 0, 2304, 256)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://byimj1o4lmq63"]
+[gd_scene load_steps=13 format=3 uid="uid://byimj1o4lmq63"]
 
 [ext_resource type="Texture2D" uid="uid://bsfprsxjoc3ue" path="res://Player/sprites.png" id="1_cpw4i"]
 [ext_resource type="Script" path="res://Player/player.gd" id="1_knlpx"]
@@ -6,6 +6,22 @@
 [sub_resource type="AtlasTexture" id="AtlasTexture_bbxj1"]
 atlas = ExtResource("1_cpw4i")
 region = Rect2(1, 20, 16, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f7uh1"]
+atlas = ExtResource("1_cpw4i")
+region = Rect2(211, 20, 16, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p703b"]
+atlas = ExtResource("1_cpw4i")
+region = Rect2(227, 20, 16, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l3gbx"]
+atlas = ExtResource("1_cpw4i")
+region = Rect2(154, 20, 16, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_so1xt"]
+atlas = ExtResource("1_cpw4i")
+region = Rect2(170, 20, 16, 33)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_afbrd"]
 atlas = ExtResource("1_cpw4i")
@@ -31,6 +47,28 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_f7uh1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p703b")
+}],
+"loop": true,
+"name": &"stairs_walk_down",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l3gbx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_so1xt")
+}],
+"loop": true,
+"name": &"stairs_walk_up",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_afbrd")
 }, {
 "duration": 1.0,
@@ -41,26 +79,26 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk",
-"speed": 8.0
+"speed": 4.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ndnyj"]
-size = Vector2(16, 30)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u416s"]
+size = Vector2(15, 30)
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 script = ExtResource("1_knlpx")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_btjp0")
-animation = &"idle"
+animation = &"stairs_walk_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 0.5)
-shape = SubResource("RectangleShape2D_ndnyj")
+shape = SubResource("RectangleShape2D_u416s")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.5, 0.5)
 limit_left = 0
 limit_top = 0
 limit_right = 768
 limit_bottom = 256
+position_smoothing_speed = 50.0

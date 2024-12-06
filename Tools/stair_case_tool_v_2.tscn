@@ -1,0 +1,89 @@
+[gd_scene load_steps=7 format=3 uid="uid://6yvmnbi6lc0r"]
+
+[ext_resource type="Script" path="res://Tools/stair_case_tool.gd" id="1_ampsi"]
+[ext_resource type="FontFile" uid="uid://cdc36a7ka1xub" path="res://Fonts/NotJamMonoProphet/Not Jam Mono Prophet 8.ttf" id="2_nppwd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_buvs4"]
+size = Vector2(1, 1)
+
+[sub_resource type="Curve2D" id="Curve2D_a1fl7"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 72, -64, 0, 0, 0, 0, 88, -64)
+}
+point_count = 3
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d1vny"]
+size = Vector2(24, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sbyb5"]
+size = Vector2(2, 100)
+
+[node name="StairCaseToolV2" type="Node2D"]
+script = ExtResource("1_ampsi")
+stairs_going_right = true
+
+[node name="All" type="Label" parent="."]
+offset_left = 23.0
+offset_top = -47.0
+offset_right = 63.0
+offset_bottom = -24.0
+theme_override_fonts/font = ExtResource("2_nppwd")
+theme_override_font_sizes/font_size = 4
+
+[node name="EnterFromForward" type="Area2D" parent="."]
+position = Vector2(8, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnterFromForward"]
+shape = SubResource("RectangleShape2D_buvs4")
+
+[node name="Start" type="Label" parent="EnterFromForward"]
+offset_left = -19.0
+offset_top = -23.0
+offset_right = 21.0
+theme_override_fonts/font = ExtResource("2_nppwd")
+theme_override_font_sizes/font_size = 4
+
+[node name="EnterFromBackward" type="Area2D" parent="."]
+position = Vector2(88, -64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnterFromBackward"]
+shape = SubResource("RectangleShape2D_buvs4")
+
+[node name="End" type="Label" parent="EnterFromBackward"]
+offset_left = -18.0
+offset_top = 2.0
+offset_right = 22.0
+offset_bottom = 25.0
+theme_override_fonts/font = ExtResource("2_nppwd")
+theme_override_font_sizes/font_size = 4
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_a1fl7")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(8, 0)
+rotation = -0.785398
+rotates = false
+loop = false
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Path2D/PathFollow2D"]
+position = Vector2(-1, 1)
+rotation = 0.785023
+scale = Vector2(1, 0.1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/StaticBody2D"]
+shape = SubResource("RectangleShape2D_d1vny")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Path2D/PathFollow2D/StaticBody2D"]
+position = Vector2(-8.9976, -64.1759)
+shape = SubResource("RectangleShape2D_sbyb5")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Path2D/PathFollow2D/StaticBody2D"]
+position = Vector2(9.0024, -64.1084)
+shape = SubResource("RectangleShape2D_sbyb5")
+
+[connection signal="body_entered" from="EnterFromForward" to="." method="_on_enter_from_forward_body_entered"]
+[connection signal="body_exited" from="EnterFromForward" to="." method="_on_enter_from_forward_body_exited"]
+[connection signal="body_entered" from="EnterFromBackward" to="." method="_on_enter_from_backward_body_entered"]
+[connection signal="body_exited" from="EnterFromBackward" to="." method="_on_enter_from_backward_body_exited"]

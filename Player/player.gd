@@ -5,19 +5,20 @@ extends CharacterBody2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var camera_2d: Camera2D = $Camera2D
 
-
 const SPEED = 120
 const JUMP_VELOCITY = -300
 
 var moving_right : bool = true
 var is_walking : bool = false
 var is_on_stairs : bool = false
+var stairs_directed_rigth : bool = false
+
+#TODO attack
 
 func _physics_process(delta: float) -> void:
-	if moving_right:
-		animated_sprite_2d.flip_h = true
-	else:
-		animated_sprite_2d.flip_h = false
+	# Add the gravity.
+	if not is_on_floor():
+		velocity += get_gravity() * delta
 	
 	if is_on_stairs:
 		stairs_movement()
@@ -26,22 +27,21 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide()
 
-func set_player_on_stairs(state: bool) -> void:
-	if state != is_on_stairs:
-		pass
-		#TODO
-	
+func set_player_on_stairs(state: bool, stairs_going_right: bool) -> void:
+	stairs_directed_rigth = stairs_going_right
 	is_on_stairs = state
 
-func default_movement(delta: float) -> void:
+func default_movement(_delta: float) -> void:
+	if moving_right:
+		animated_sprite_2d.flip_h = true
+	else:
+		animated_sprite_2d.flip_h = false
+	
 	if is_walking:
 		animated_sprite_2d.play("walk")
 	else:
 		animated_sprite_2d.play("idle")
 	
-	# Add the gravity.
-	if not is_on_floor():
-		velocity += get_gravity() * delta
 	
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and is_on_floor():
@@ -66,7 +66,21 @@ func default_movement(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
 func stairs_movement() -> void:
-	pass
+	if Input.is_action_pressed("go_upstairs"):
+		if stairs_directed_rigth and animated_sprite_2d.flip_h == false:
+			animated_sprite_2d.flip_h = true
+		elif not stairs_directed_rigth and animated_sprite_2d.flip_h == true:
+			animated_sprite_2d.flip_h = false
+		animated_sprite_2d.play("stairs_walk_up")
+	elif Input.is_action_pressed("go_downstairs"):
+		if stairs_directed_rigth and animated_sprite_2d.flip_h == true:
+			animated_sprite_2d.flip_h = false
+		elif not stairs_directed_rigth and animated_sprite_2d.flip_h == false:
+			animated_sprite_2d.flip_h = true
+		animated_sprite_2d.play("stairs_walk_down")
+	else:
+		animated_sprite_2d.stop()
+
 
 func change_camera_limits(left: int, top: int, right: int, bottom: int) -> void:
 	camera_2d.limit_left = left

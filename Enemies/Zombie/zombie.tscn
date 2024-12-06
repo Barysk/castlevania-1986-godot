@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3 uid="uid://4dy0i4bsdrps"]
+
+[ext_resource type="Texture2D" uid="uid://b2a20ny7qt2q0" path="res://Enemies/sprite.png" id="1_1euuj"]
+[ext_resource type="Script" path="res://Enemies/Zombie/zombie.gd" id="1_i6xat"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b8c8n"]
+atlas = ExtResource("1_1euuj")
+region = Rect2(1, 28, 17, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q1ihy"]
+atlas = ExtResource("1_1euuj")
+region = Rect2(18, 28, 17, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v3lyv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b8c8n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q1ihy")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 4.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t41u4"]
+radius = 0.5
+height = 10.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_81sv8"]
+size = Vector2(15, 26)
+
+[node name="Zombie" type="CharacterBody2D" groups=["Zombie"]]
+collision_layer = 4
+script = ExtResource("1_i6xat")
+metadata/Enemy = "zombie"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_v3lyv")
+animation = &"walk"
+autoplay = "walk"
+frame_progress = 0.174213
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 15)
+rotation = -1.5708
+shape = SubResource("CapsuleShape2D_t41u4")
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(-0.5, 3)
+shape = SubResource("RectangleShape2D_81sv8")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(-0.5, 3)
+shape = SubResource("RectangleShape2D_81sv8")
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]

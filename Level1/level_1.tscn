@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://l6cdqrm5xvn6"]
+[gd_scene load_steps=20 format=4 uid="uid://l6cdqrm5xvn6"]
 
 [ext_resource type="Texture2D" uid="uid://b82o7ueg3bu4v" path="res://Level1/sprite.png" id="1_7qe2o"]
 [ext_resource type="PackedScene" uid="uid://byimj1o4lmq63" path="res://Player/player.tscn" id="1_o585f"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://ctp40cqnm06x6" path="res://Level1/tileset.png" id="4_1auuc"]
 [ext_resource type="PackedScene" uid="uid://wgw74ktiyd4w" path="res://Tools/area_trigger.tscn" id="4_irdkv"]
 [ext_resource type="PackedScene" uid="uid://6yvmnbi6lc0r" path="res://Tools/stair_case_tool_v_2.tscn" id="7_6i8hn"]
+[ext_resource type="PackedScene" uid="uid://c5d40mg3cy354" path="res://Enemies/enemy_spawner.tscn" id="9_2ifq5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1ei5e"]
 texture = ExtResource("4_1auuc")
@@ -182,7 +183,7 @@ z_index = 2
 position = Vector2(56, 152)
 
 [node name="LevelBackGround" type="Sprite2D" parent="."]
-position = Vector2(1795, 195)
+position = Vector2(1790, 195)
 rotation = 0.000145924
 texture = ExtResource("1_7qe2o")
 
@@ -199,12 +200,14 @@ position = Vector2(0, -10)
 
 [node name="SceneToEntrHall" parent="CastleEntrance/Triggers" instance=ExtResource("4_irdkv")]
 position = Vector2(695, 162)
+collision_mask = 2
 
 [node name="Collision" parent="CastleEntrance/Triggers/SceneToEntrHall" index="0"]
 shape = SubResource("CapsuleShape2D_c31hq")
 
 [node name="RevealTresure" parent="CastleEntrance/Triggers" instance=ExtResource("4_irdkv")]
 position = Vector2(728, 171)
+collision_mask = 2
 
 [node name="Collision" parent="CastleEntrance/Triggers/RevealTresure" index="0"]
 position = Vector2(3.5, 5)
@@ -239,7 +242,7 @@ position = Vector2(-5, 96)
 shape = SubResource("RectangleShape2D_aafsx")
 
 [node name="RB" type="CollisionShape2D" parent="EntranceHall/Borders"]
-position = Vector2(1537.5, 72)
+position = Vector2(1531, 72)
 shape = SubResource("RectangleShape2D_jmi6l")
 
 [node name="Stairs" type="Node2D" parent="EntranceHall"]
@@ -295,10 +298,68 @@ position = Vector2(120, -96)
 curve = SubResource("Curve2D_svqft")
 
 [node name="PathFollow2D" parent="EntranceHall/Stairs/StairCaseToolV2_4/Path2D" index="0"]
-position = Vector2(89.0553, -81.0553)
+position = Vector2(89.0551, -81.0551)
 progress = 114.626
 
+[node name="Spawners" type="Node2D" parent="EntranceHall"]
+
+[node name="EnemySpawner" parent="EntranceHall/Spawners" instance=ExtResource("9_2ifq5")]
+position = Vector2(816, 153)
+
+[node name="EnemySpawner2" parent="EntranceHall/Spawners" instance=ExtResource("9_2ifq5")]
+position = Vector2(944, 153)
+
+[node name="EnemySpawner3" parent="EntranceHall/Spawners" instance=ExtResource("9_2ifq5")]
+position = Vector2(1072, 153)
+
+[node name="EnemySpawner4" parent="EntranceHall/Spawners" instance=ExtResource("9_2ifq5")]
+position = Vector2(1008, 153)
+
+[node name="EnemySpawner5" parent="EntranceHall/Spawners" instance=ExtResource("9_2ifq5")]
+position = Vector2(880, 153)
+
+[node name="EnemySpawner6" parent="EntranceHall/Spawners" instance=ExtResource("9_2ifq5")]
+position = Vector2(1136, 153)
+
+[node name="EnemySpawner7" parent="EntranceHall/Spawners" instance=ExtResource("9_2ifq5")]
+position = Vector2(1200, 153)
+
+[node name="EnemySpawner8" parent="EntranceHall/Spawners" instance=ExtResource("9_2ifq5")]
+position = Vector2(1264, 153)
+
+[node name="EnemySpawner9" parent="EntranceHall/Spawners" instance=ExtResource("9_2ifq5")]
+position = Vector2(1808, 152)
+
+[node name="EnemySpawner10" parent="EntranceHall/Spawners" instance=ExtResource("9_2ifq5")]
+position = Vector2(1872, 152)
+
+[node name="EnemySpawner11" parent="EntranceHall/Spawners" instance=ExtResource("9_2ifq5")]
+position = Vector2(1936, 152)
+
+[node name="EnemySpawner12" parent="EntranceHall/Spawners" instance=ExtResource("9_2ifq5")]
+position = Vector2(2000, 153)
+
+[node name="EnemySpawner13" parent="EntranceHall/Spawners" instance=ExtResource("9_2ifq5")]
+position = Vector2(2064, 153)
+
+[node name="EnemySpawner14" parent="EntranceHall/Spawners" instance=ExtResource("9_2ifq5")]
+position = Vector2(2128, 153)
+
+[node name="EnemySpawner15" parent="EntranceHall/Spawners" instance=ExtResource("9_2ifq5")]
+position = Vector2(1744, 152)
+
+[node name="EnemySpawner16" parent="EntranceHall/Spawners" instance=ExtResource("9_2ifq5")]
+position = Vector2(2192, 153)
+
+[node name="EnemySpawner17" parent="EntranceHall/Spawners" instance=ExtResource("9_2ifq5")]
+position = Vector2(2256, 153)
+
+[node name="SecondsTimer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
 [connection signal="body_entered" from="CastleEntrance/Triggers/SceneToEntrHall" to="." method="_on_scene_to_entr_hall_body_entered"]
+[connection signal="timeout" from="SecondsTimer" to="." method="_on_seconds_timer_timeout"]
 
 [editable path="CastleEntrance/Triggers/SceneToEntrHall"]
 [editable path="CastleEntrance/Triggers/RevealTresure"]

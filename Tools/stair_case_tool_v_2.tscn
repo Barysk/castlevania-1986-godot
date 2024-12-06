@@ -33,6 +33,7 @@ theme_override_font_sizes/font_size = 4
 
 [node name="EnterFromForward" type="Area2D" parent="."]
 position = Vector2(8, 0)
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnterFromForward"]
 shape = SubResource("RectangleShape2D_buvs4")
@@ -46,6 +47,7 @@ theme_override_font_sizes/font_size = 4
 
 [node name="EnterFromBackward" type="Area2D" parent="."]
 position = Vector2(88, -64)
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnterFromBackward"]
 shape = SubResource("RectangleShape2D_buvs4")

@@ -1,7 +1,19 @@
-[gd_scene load_steps=13 format=3 uid="uid://byimj1o4lmq63"]
+[gd_scene load_steps=19 format=3 uid="uid://byimj1o4lmq63"]
 
 [ext_resource type="Texture2D" uid="uid://bsfprsxjoc3ue" path="res://Player/sprites.png" id="1_cpw4i"]
 [ext_resource type="Script" path="res://Player/player.gd" id="1_knlpx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wn7an"]
+atlas = ExtResource("1_cpw4i")
+region = Rect2(1, 78, 24, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qdxhy"]
+atlas = ExtResource("1_cpw4i")
+region = Rect2(25, 78, 20, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pjt8m"]
+atlas = ExtResource("1_cpw4i")
+region = Rect2(45, 78, 22, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bbxj1"]
 atlas = ExtResource("1_cpw4i")
@@ -37,6 +49,20 @@ region = Rect2(63, 20, 17, 33)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_btjp0"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wn7an")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qdxhy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pjt8m")
+}],
+"loop": false,
+"name": &"attack_melee",
+"speed": 8.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bbxj1")
@@ -79,18 +105,27 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk",
-"speed": 4.0
+"speed": 6.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u416s"]
 size = Vector2(15, 30)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qcrvp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iyqpm"]
+size = Vector2(512, 512)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wsq3p"]
+size = Vector2(256, 256)
+
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
+collision_layer = 2
 script = ExtResource("1_knlpx")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_btjp0")
-animation = &"stairs_walk_down"
+animation = &"attack_melee"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 0.5)
@@ -102,3 +137,29 @@ limit_top = 0
 limit_right = 768
 limit_bottom = 256
 position_smoothing_speed = 50.0
+
+[node name="Hitbox" type="Area2D" parent="."]
+metadata/Hitbox = "player"
+
+[node name="CollisionHitbox" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(-18, 0)
+shape = SubResource("RectangleShape2D_qcrvp")
+disabled = true
+
+[node name="QFreeArea" type="Area2D" parent="."]
+collision_mask = 4
+metadata/AreaDetection = "qfree"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="QFreeArea"]
+shape = SubResource("RectangleShape2D_iyqpm")
+debug_color = Color(0, 0.6, 0.701961, 0)
+
+[node name="ScreenArea" type="Area2D" parent="."]
+collision_mask = 4
+metadata/AreaDetection = "screen"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScreenArea"]
+shape = SubResource("RectangleShape2D_wsq3p")
+debug_color = Color(0, 0.6, 0.701961, 0)
+
+[connection signal="body_exited" from="QFreeArea" to="." method="_on_q_free_area_body_exited"]

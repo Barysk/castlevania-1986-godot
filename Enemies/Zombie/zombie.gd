@@ -25,6 +25,12 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 	
 	move_and_slide()
+	if is_on_wall():
+		match direction:
+			1: direction = -1
+			-1: direction = 1
+			_: print("no way!")
+
 
 
 func _on_hurtbox_area_entered(area: Area2D) -> void:

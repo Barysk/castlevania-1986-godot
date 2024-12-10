@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+@onready var ui: Control = $"../CanvasLayer/UI"
 @onready var player: CharacterBody2D = $"."
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
@@ -16,15 +17,23 @@ var is_on_stairs : bool = false
 var stairs_directed_rigth : bool = false
 var is_attacking : bool = false
 
-#TODO attack
+# [ STATS ]
+var score : int = 0		# 0
+var health : int = 16	# 1
+var hearts : int = 5	# 2
+var tries : int = 3		# 3
+
+func _ready() -> void:
+	update_ui()
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	
-	if Input.is_action_just_pressed("attack") and is_on_floor():
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+	if Input.is_action_just_pressed("attack"):
+		if is_on_floor():
+			velocity.x = move_toward(velocity.x, 0, SPEED)
 		animated_sprite_2d.play("attack_melee")
 		collision_hitbox.set_deferred("disabled", false)
 		is_attacking = true
@@ -105,6 +114,41 @@ func change_camera_limits(left: int, top: int, right: int, bottom: int) -> void:
 	camera_2d.limit_right = right
 	camera_2d.limit_bottom = bottom
 
+func update_ui() -> void:
+	ui.set_score(score)
+	ui.set_player_health(health)
+	ui.set_hearts(hearts)
+	ui.set_tries(tries)
+
+func add_stat(stat_index: int, value: int):
+	match stat_index:
+		0: score += value
+		1: health += value
+		2: hearts += value
+		3: tries += value
+		_: print("No such thing to set")
+	
+	update_ui()
+
+func set_stat(stat_index: int, value: int):
+	match stat_index:
+		0: score = value
+		1: health = value
+		2: hearts = value
+		3: tries = value
+		_: print("No such thing to set")
+	
+	update_ui()
+
+func get_stat(stat_index: int) -> int:
+	match stat_index:
+		0: return score
+		1: return health
+		2: return hearts
+		3: return tries
+		_:
+			print("No such thing to return")
+			return -1
 
 func _on_q_free_area_body_exited(body: Node2D) -> void:
 	#print(body)

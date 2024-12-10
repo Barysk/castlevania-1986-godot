@@ -33,6 +33,7 @@ height = 10.0
 size = Vector2(15, 26)
 
 [node name="Zombie" type="CharacterBody2D" groups=["Zombie"]]
+z_index = 2
 collision_layer = 4
 script = ExtResource("1_i6xat")
 metadata/Enemy = "zombie"

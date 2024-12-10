@@ -22,26 +22,41 @@ var enemy_health : int = 16
 var hearts : int = 0
 
 @onready var try_counter: Label = $MarginContainer/VBoxContainer/HBoxContainer4/VBoxContainer2/HBoxContainer4/TryCounter
-# Later
+var tries : int = 0
 
 func _ready() -> void:
 	set_score(0)
 	set_timer(300)
+
 
 # [ SCORE ]
 func set_score(new_score: int):
 	score = new_score
 	score_label.text = str(score)
 
-func add_score(add_score: int):
-	score = score + add_score
-	set_score(score)
+# [ PLAYER HEALTH ]
+func set_player_health(new_player_health: int):
+	player_health = new_player_health
+	player_health_label.text = make_player_healthbar(player_health)
 
-func get_score(add_score: int) -> int:
-	return score
+func make_player_healthbar(value: int) -> String:
+	var tmp_healthbar: String = ""
+	for i in value:
+		tmp_healthbar += "|"
+	return tmp_healthbar
+
+# [ HEARTS ]
+func set_hearts(new_hearts: int):
+	hearts = new_hearts
+	hearts_label.text = str(hearts)
+
+# [ TRIES ]
+func set_tries(new_tries: int):
+	tries = new_tries
+	try_counter.text = str(tries)
 
 
-# [ TIMER ]
+# [ TIMER ] [ INTERNAL ]
 func set_timer(new_time: int):
 	time = new_time
 	time_label.text = str(time)
@@ -54,14 +69,3 @@ func is_timer_zero() -> bool:
 		return true
 	else:
 		return false
-
-
-# [ PLAYER HEALTH ]
-func set_player_health(new_player_health: int):
-	player_health = new_player_health
-	player_health_label.text = str(player_health)
-
-func get_player_health() -> int:
-	return player_health
-
-# [ HEARTS ]

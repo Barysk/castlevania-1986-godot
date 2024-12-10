@@ -73,6 +73,8 @@ loop = false
 position = Vector2(-1, 1)
 rotation = 0.785023
 scale = Vector2(1, 0.1)
+collision_layer = 16
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/StaticBody2D"]
 shape = SubResource("RectangleShape2D_d1vny")

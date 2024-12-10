@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://bilugang5k1bm"]
+
+[ext_resource type="Script" path="res://Items/destructable.gd" id="1_lrkx8"]
+[ext_resource type="Texture2D" uid="uid://yigpnn4sbq7f" path="res://Items/sprite.png" id="2_u7s33"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wckon"]
+atlas = ExtResource("2_u7s33")
+region = Rect2(174, 0, 17, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3x417"]
+atlas = ExtResource("2_u7s33")
+region = Rect2(191, 0, 17, 33)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_euqmf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wckon")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3x417")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r1ahp"]
+size = Vector2(8, 14)
+
+[node name="Fireplace" type="Node2D"]
+script = ExtResource("1_lrkx8")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_euqmf")
+autoplay = "default"
+frame_progress = 0.217722
+
+[node name="Hurtbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectangleShape2D_r1ahp")
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]

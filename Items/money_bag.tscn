@@ -1,0 +1,74 @@
+[gd_scene load_steps=9 format=3 uid="uid://brr8h76xcag6c"]
+
+[ext_resource type="Script" path="res://Items/collectable.gd" id="1_0aiyn"]
+[ext_resource type="Texture2D" uid="uid://yigpnn4sbq7f" path="res://Items/sprite.png" id="2_dpgtk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pl860"]
+size = Vector2(16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lxkin"]
+atlas = ExtResource("2_dpgtk")
+region = Rect2(45, 0, 15, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7vix3"]
+atlas = ExtResource("2_dpgtk")
+region = Rect2(62, 0, 15, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t7qlj"]
+atlas = ExtResource("2_dpgtk")
+region = Rect2(79, 0, 15, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q84hp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lxkin")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7vix3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t7qlj")
+}],
+"loop": false,
+"name": &"default",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lxkin")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7vix3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t7qlj")
+}],
+"loop": true,
+"name": &"flickering",
+"speed": 16.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g4axc"]
+size = Vector2(16, 16)
+
+[node name="MoneyBag" type="CharacterBody2D"]
+collision_layer = 8
+script = ExtResource("1_0aiyn")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_pl860")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_q84hp")
+animation = &"flickering"
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_g4axc")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

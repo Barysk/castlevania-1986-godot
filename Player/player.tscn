@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://byimj1o4lmq63"]
+[gd_scene load_steps=20 format=3 uid="uid://byimj1o4lmq63"]
 
 [ext_resource type="Texture2D" uid="uid://bsfprsxjoc3ue" path="res://Player/sprites.png" id="1_cpw4i"]
 [ext_resource type="Script" path="res://Player/player.gd" id="1_knlpx"]
@@ -113,6 +113,10 @@ size = Vector2(15, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qcrvp"]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_h4fei"]
+radius = 5.0
+height = 23.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iyqpm"]
 size = Vector2(512, 512)
 
@@ -120,7 +124,9 @@ size = Vector2(512, 512)
 size = Vector2(256, 256)
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
+z_index = 2
 collision_layer = 2
+collision_mask = 17
 script = ExtResource("1_knlpx")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -144,6 +150,14 @@ metadata/Hitbox = "player"
 [node name="CollisionHitbox" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(-18, 0)
 shape = SubResource("RectangleShape2D_qcrvp")
+disabled = true
+
+[node name="Hurtbox" type="Area2D" parent="."]
+metadata/Hurtbox = "player"
+
+[node name="CollisionHitbox" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, 0.5)
+shape = SubResource("CapsuleShape2D_h4fei")
 disabled = true
 
 [node name="QFreeArea" type="Area2D" parent="."]

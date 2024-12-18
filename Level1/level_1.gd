@@ -7,8 +7,10 @@ extends Node2D
 
 const MONEY_BAG = preload("res://Items/money_bag.tscn")
 @onready var reveal_tresure: Area2D = $CastleEntrance/Triggers/RevealTresure
+@onready var tresure_revealed: AudioStreamPlayer = $Sounds/TresureRevealed
 @onready var block_broken: Area2D = $EntranceHall/Triggers/HiddenTresure/BlockBroken
 @onready var sprite_2d: Sprite2D = $EntranceHall/Triggers/HiddenTresure/Sprite2D
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -35,6 +37,7 @@ func _on_seconds_timer_timeout() -> void:
 
 func _add_item_to_tree(item):
 	get_tree().root.add_child(item)
+	tresure_revealed.play()
 
 func _on_reveal_tresure_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player") and reveal_tresure.get_meta("is_hidden"):

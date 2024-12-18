@@ -25,6 +25,8 @@ window/stretch/mode="canvas_items"
 
 Player=""
 Zombie=""
+Pantera=""
+Enemy=""
 
 [input]
 

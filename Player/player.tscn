@@ -1,7 +1,11 @@
-[gd_scene load_steps=20 format=3 uid="uid://byimj1o4lmq63"]
+[gd_scene load_steps=27 format=3 uid="uid://byimj1o4lmq63"]
 
 [ext_resource type="Texture2D" uid="uid://bsfprsxjoc3ue" path="res://Player/sprites.png" id="1_cpw4i"]
 [ext_resource type="Script" path="res://Player/player.gd" id="1_knlpx"]
+[ext_resource type="AudioStream" uid="uid://dgr2xnmx20d0j" path="res://Sounds/03.wav" id="3_up47g"]
+[ext_resource type="AudioStream" uid="uid://bidga4e35pa23" path="res://Sounds/37.wav" id="4_3qemn"]
+[ext_resource type="AudioStream" uid="uid://b2l62x6i0pvhb" path="res://Sounds/23.wav" id="5_1iimc"]
+[ext_resource type="AudioStream" uid="uid://bishk01hc5085" path="res://Sounds/22.wav" id="5_1p4la"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wn7an"]
 atlas = ExtResource("1_cpw4i")
@@ -14,6 +18,10 @@ region = Rect2(25, 78, 20, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_pjt8m"]
 atlas = ExtResource("1_cpw4i")
 region = Rect2(45, 78, 22, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kqoo1"]
+atlas = ExtResource("1_cpw4i")
+region = Rect2(274, 20, 18, 33)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bbxj1"]
 atlas = ExtResource("1_cpw4i")
@@ -65,6 +73,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_kqoo1")
+}],
+"loop": false,
+"name": &"get_damage",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_bbxj1")
 }],
 "loop": false,
@@ -112,6 +128,7 @@ animations = [{
 size = Vector2(15, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qcrvp"]
+size = Vector2(26, 18)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_h4fei"]
 radius = 5.0
@@ -123,6 +140,21 @@ size = Vector2(512, 512)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wsq3p"]
 size = Vector2(256, 256)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ntdi6"]
+atlas = ExtResource("1_cpw4i")
+region = Rect2(27, 478, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ngx1t"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ntdi6")
+}],
+"loop": false,
+"name": &"default",
+"speed": 0.0
+}]
+
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 z_index = 2
 collision_layer = 2
@@ -131,7 +163,8 @@ script = ExtResource("1_knlpx")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_btjp0")
-animation = &"attack_melee"
+animation = &"get_damage"
+autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 0.5)
@@ -148,7 +181,7 @@ position_smoothing_speed = 50.0
 metadata/Hitbox = "player"
 
 [node name="CollisionHitbox" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(-18, 0)
+position = Vector2(-21, 0)
 shape = SubResource("RectangleShape2D_qcrvp")
 disabled = true
 
@@ -158,9 +191,9 @@ metadata/Hurtbox = "player"
 [node name="CollisionHitbox" type="CollisionShape2D" parent="Hurtbox"]
 position = Vector2(0, 0.5)
 shape = SubResource("CapsuleShape2D_h4fei")
-disabled = true
 
 [node name="QFreeArea" type="Area2D" parent="."]
+collision_layer = 3
 collision_mask = 4
 metadata/AreaDetection = "qfree"
 
@@ -169,6 +202,7 @@ shape = SubResource("RectangleShape2D_iyqpm")
 debug_color = Color(0, 0.6, 0.701961, 0)
 
 [node name="ScreenArea" type="Area2D" parent="."]
+collision_layer = 3
 collision_mask = 4
 metadata/AreaDetection = "screen"
 
@@ -176,4 +210,25 @@ metadata/AreaDetection = "screen"
 shape = SubResource("RectangleShape2D_wsq3p")
 debug_color = Color(0, 0.6, 0.701961, 0)
 
+[node name="Bicz" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(-22, -4)
+sprite_frames = SubResource("SpriteFrames_ngx1t")
+frame_progress = 1.0
+
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="Bicz" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("3_up47g")
+
+[node name="Hurt" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("4_3qemn")
+
+[node name="ScorePickedUp" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("5_1iimc")
+
+[node name="HeartPickedUp" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("5_1p4la")
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
 [connection signal="body_exited" from="QFreeArea" to="." method="_on_q_free_area_body_exited"]

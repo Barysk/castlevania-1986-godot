@@ -31,8 +31,6 @@ func _physics_process(delta: float) -> void:
 			-1: direction = 1
 			_: print("no way!")
 
-
-
 func _on_hurtbox_area_entered(area: Area2D) -> void:
 	
 	if area.has_meta("Hitbox"):

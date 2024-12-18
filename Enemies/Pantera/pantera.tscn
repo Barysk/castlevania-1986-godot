@@ -1,0 +1,111 @@
+[gd_scene load_steps=12 format=3 uid="uid://b5k6n3pf1r7x5"]
+
+[ext_resource type="Texture2D" uid="uid://b2a20ny7qt2q0" path="res://Enemies/sprite.png" id="1_eyafs"]
+[ext_resource type="Script" path="res://Enemies/Pantera/pantera.gd" id="1_nvlw7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uwoft"]
+atlas = ExtResource("1_eyafs")
+region = Rect2(56, 11, 24, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lrcba"]
+atlas = ExtResource("1_eyafs")
+region = Rect2(81, 11, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ka5ep"]
+atlas = ExtResource("1_eyafs")
+region = Rect2(115, 11, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bmk3p"]
+atlas = ExtResource("1_eyafs")
+region = Rect2(147, 11, 32, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uldiw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uwoft")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lrcba")
+}],
+"loop": false,
+"name": &"jump",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lrcba")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ka5ep")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bmk3p")
+}],
+"loop": true,
+"name": &"run",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pnmct"]
+size = Vector2(16, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uodgg"]
+size = Vector2(22, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ow86d"]
+size = Vector2(32, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ixvoa"]
+size = Vector2(48, 255)
+
+[node name="Pantera" type="CharacterBody2D" groups=["Enemy", "Pantera"]]
+collision_layer = 4
+script = ExtResource("1_nvlw7")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_uldiw")
+animation = &"run"
+autoplay = "idle"
+frame_progress = 0.187365
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_pnmct")
+
+[node name="hitbox" type="Area2D" parent="."]
+metadata/Hitbox = "enemy"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+shape = SubResource("RectangleShape2D_uodgg")
+
+[node name="hurtbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurtbox"]
+position = Vector2(0, -12)
+shape = SubResource("RectangleShape2D_ow86d")
+
+[node name="DetectionLeft" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionLeft"]
+position = Vector2(-40, 0)
+shape = SubResource("RectangleShape2D_ixvoa")
+
+[node name="DetectionRight" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRight"]
+position = Vector2(40, 0)
+shape = SubResource("RectangleShape2D_ixvoa")
+
+[connection signal="area_entered" from="hurtbox" to="." method="_on_hurtbox_area_entered"]
+[connection signal="body_entered" from="DetectionLeft" to="." method="_on_detection_left_body_entered"]
+[connection signal="body_entered" from="DetectionRight" to="." method="_on_detection_right_body_entered"]

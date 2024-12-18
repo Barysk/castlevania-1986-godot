@@ -32,7 +32,7 @@ height = 10.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_81sv8"]
 size = Vector2(15, 26)
 
-[node name="Zombie" type="CharacterBody2D" groups=["Zombie"]]
+[node name="Zombie" type="CharacterBody2D" groups=["Enemy", "Zombie"]]
 z_index = 2
 collision_layer = 4
 script = ExtResource("1_i6xat")
@@ -50,6 +50,7 @@ rotation = -1.5708
 shape = SubResource("CapsuleShape2D_t41u4")
 
 [node name="Hitbox" type="Area2D" parent="."]
+metadata/Hitbox = "enemy"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(-0.5, 3)
